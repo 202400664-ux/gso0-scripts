@@ -47,7 +47,7 @@ done
 [ -f /etc/cron.d/gso0 ] && cp --parents -p /etc/cron.d/gso0 "$STAGE/config/"
 
 # 2b. Scripts operativos (ademas del repositorio remoto)
-cp -a /opt/app/scripts "$STAGE/scripts"
+mkdir -p "$STAGE/scripts"; tar -C /opt/app/scripts --exclude=.git -cf - . | tar -C "$STAGE/scripts" -xf -
 
 # 3. Empaquetado comprimido con marca de tiempo
 tar -czf "$FINAL" -C "$STAGE" . || fail "no se pudo crear el paquete"
