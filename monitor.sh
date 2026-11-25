@@ -43,6 +43,8 @@ done
 # 2. La aplicacion responde a traves de Nginx
 code=$(curl -s -o /dev/null -m 5 -w '%{http_code}' http://127.0.0.1/ || true)
 [ "$code" = "200" ] || alert "La aplicacion no responde por Nginx (HTTP $code)"
+api=$(curl -s -o /dev/null -m 5 -w "%{http_code}" http://127.0.0.1/api/roles || true)
+case "$api" in 200|401|403) ;; *) alert "La API no responde por Nginx (HTTP $api)" ;; esac
 
 # 3. CPU y memoria
 cpu=$(cpu_usage); mem=$(mem_usage)
